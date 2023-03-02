@@ -30,6 +30,7 @@ const PodcastCard = styled(Card)`
 const PodcastImage = styled.img`
     width: 70%;
     align-self: center;
+    margin: 1rem 0;
 `;
 
 const PodcastTitle = styled.p`

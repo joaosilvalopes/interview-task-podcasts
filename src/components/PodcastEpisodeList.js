@@ -54,7 +54,11 @@ const EpisodeTableCell = styled.td`
 `;
 
 const EpisodeTitleLink = styled(Link)`
-    color: #777;
+    color: blue;
+
+    &:hover {
+        color: black;
+    }
 `;
 
 const PodcastEpisodeList = () => {

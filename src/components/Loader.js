@@ -45,8 +45,8 @@ const Ring = styled.div`
     opacity: 0;
 `;
 
-const Loader = () => (
-    <Container>
+const Loader = (props) => (
+    <Container {...props}>
         <Ring></Ring>
         <Circle></Circle>
     </Container>

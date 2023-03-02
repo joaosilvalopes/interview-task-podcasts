@@ -14,7 +14,7 @@ const Main = styled.main`
 const PodcastsUl = styled.ul`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 1.6rem;
+    grid-gap: 6rem 1.6rem;
 `;
 
 const PodcastLi = styled.li`
@@ -42,6 +42,7 @@ const PodcastAuthor = styled.p`
     color: grey;
     margin: 1.2rem 0;
     font-weight: bold;
+    text-align: center;
 `;
 
 const PodcastContent = styled(Card)`
@@ -49,6 +50,30 @@ const PodcastContent = styled(Card)`
     flex-direction: column;
     align-items: center;
     padding-top: 4rem;
+`;
+
+const PodcastCount = styled.span`
+    display: inline-block;
+    border-radius: 1rem;
+    padding: 0.5rem;
+    font-weight: bold;
+    color: white;
+    background: blue;
+    margin-right: 1rem;
+`;
+
+const SearchInput = styled.input`
+    border: 0.1rem solid rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    font-size: inherit;
+`;
+
+const SearchBar = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 3rem;
 `;
 
 const Podcast = ({ data }) => (
@@ -122,7 +147,10 @@ const Homepage = () => {
 
     return filteredPodcasts ? (
         <Main>
-             <input type="text" value={searchQuery} onChange={handleSearchInputChange} /> {filteredPodcasts.length}
+            <SearchBar>
+                <PodcastCount>{filteredPodcasts.length}</PodcastCount>
+                <SearchInput type="text" placeholder="Filter podcasts..." value={searchQuery} onChange={handleSearchInputChange} />
+            </SearchBar>
             <PodcastsUl>{filteredPodcasts.map((podcast) => <Podcast data={podcast} key={podcast.id} />)}</PodcastsUl>
         </Main>
     ) : null;
