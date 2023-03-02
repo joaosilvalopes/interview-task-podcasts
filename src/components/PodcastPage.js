@@ -70,11 +70,10 @@ const fetchPodcast = async (podcastId) => {
 
     const [details, ...episodes] = lookupRes.results;
 
-    const feedRes = await fetch(`https://cors-anywhere.herokuapp.com/${details.feedUrl}`)
+    const description = details.feedUrl ? await fetch(`https://cors-anywhere.herokuapp.com/${details.feedUrl}`)
         .then(response => response.text())
-        .then(str => new window.DOMParser().parseFromString(str, "application/xml"));
-
-    const description = feedRes.querySelector('description').textContent;
+        .then(str => new window.DOMParser().parseFromString(str, "application/xml"))
+        .then(xml => xml.querySelector('description').textContent) : '';
 
     const podcast = {
         title: details.collectionName,

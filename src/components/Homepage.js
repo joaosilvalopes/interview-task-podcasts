@@ -75,7 +75,7 @@ const getCachedPodcast = () => {
 }
 
 const fetchPodcasts = async () => {
-    const res = await fetch('https://itunes.apple.com/us/rss/toppodcasts/limit=100/json').then(res => res.json());
+    const res = await fetch('https://cors-anywhere.herokuapp.com/https://itunes.apple.com/us/rss/toppodcasts/limit=100/json').then(res => res.json());
     const tommorow = Date.now() + 86000000;
     const podcasts = res.feed.entry;
 
