@@ -81,7 +81,7 @@ const fetchPodcast = async (podcastId) => {
     const podcast = {
         title: details.collectionName,
         author: details.artistName,
-        image: details.artworkUrl30,
+        image: `${details.artworkUrl100} 768w, ${details.artworkUrl600} 1200w`,
         description: description.replaceAll('\n', '<br />'),
         episodesById: episodes.reduce((acc, episode) => ({ ...acc, [episode.trackId]: { url: episode.episodeUrl, description: episode.description.replaceAll('\n', '<br />'), title: episode.trackName, length: episode.trackTimeMillis, releaseDate: episode.releaseDate } }), {}),
         episodeCount: episodes.length
@@ -113,7 +113,7 @@ const PodcastPage = () => {
         <Main>
             <PodcastCardContainer>
                 <PodcastCard>
-                    <PodcastImage src={podcast.image} />
+                    <PodcastImage srcSet={podcast.image} />
                     <Separator />
                     <PodcastTitle>{podcast.title}</PodcastTitle>
                     <Author>by <span>{podcast.author}</span></Author>

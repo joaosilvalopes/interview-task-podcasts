@@ -28,6 +28,8 @@ const PodcastImg = styled.img`
     left: 50%;
     transform: translateX(-50%);
     border-radius: 50%;
+    width: 5.5rem;
+    height: 5.5rem;
 `;
 
 const PodcastTitle = styled.h3`
@@ -52,7 +54,7 @@ const PodcastContent = styled(Card)`
 const Podcast = ({ data }) => (
     <PodcastLi>
         <Link to={`podcast/${data.id}`}>
-            <PodcastImg src={data.image} />
+            <PodcastImg srcSet={data.image} />
             <PodcastContent>
                 <PodcastTitle>{data.title}</PodcastTitle>
                 <br />
@@ -82,7 +84,7 @@ const fetchPodcasts = async () => {
             title: podcast['im:name'].label,
             author: podcast['im:artist'].label,
             id: podcast.id.attributes['im:id'],
-            image: podcast['im:image'][0].label
+            image: `${podcast['im:image'][0].label} 768w, ${podcast['im:image'][1].label} 992w, ${podcast['im:image'][2].label} 1200w`,
         })),
         ttl: tommorow,
     }
