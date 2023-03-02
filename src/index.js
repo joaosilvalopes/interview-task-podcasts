@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
 
+import LoadingContext from './context/LoadingContext';
+
+import Header from './components/Header';
 import Homepage from './components/Homepage';
 import PodcastPage from './components/PodcastPage';
 import PodcastEpisodeList from './components/PodcastEpisodeList';
@@ -31,8 +34,19 @@ const router = createBrowserRouter([
   },
 ]);
 
+const App = () => {
+  const [loading, setLoading] = useState(true);
+
+  return (
+    <LoadingContext.Provider value={ [loading, setLoading] }>
+      <Header />
+      <RouterProvider router={router} />
+    </LoadingContext.Provider>
+  )
+};
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+      <App />
   </React.StrictMode>
 );

@@ -1,8 +1,10 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 
 import Link from './Link';
 import Card from './Card';
+
+import LoadingContext from '../context/LoadingContext';
 
 const Main = styled.main`
     padding: 3.2rem;
@@ -93,14 +95,19 @@ const fetchPodcasts = async () => {
 const Homepage = () => {
     const [podcasts, setPodcasts] = useState(getCachedPodcast());
     const [searchQuery, setSearchQuery] = useState("");
+    const [_, setLoading] = useContext(LoadingContext);
 
     useEffect(() => {
         if (podcasts) {
+            setLoading(false);
+
             return;
         }
 
-        fetchPodcasts().then(setPodcasts).catch(console.log);
-    }, [podcasts, setPodcasts]);
+        setLoading(true);
+
+        fetchPodcasts().then(setPodcasts).catch(console.log).finally(() => setLoading(false));
+    }, [podcasts, setPodcasts, setLoading]);
 
     const handleSearchInputChange = (e) => {
         setSearchQuery(e.target.value);

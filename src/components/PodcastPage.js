@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams, Outlet } from "react-router-dom";
 import styled from "styled-components";
+
+import LoadingContext from "../context/LoadingContext";
 
 import Card from './Card';
 
@@ -93,14 +95,19 @@ const fetchPodcast = async (podcastId) => {
 const PodcastPage = () => {
     const { podcastId } = useParams();
     const [podcast, setPodcast] = useState(getCachedPodcast(podcastId));
+    const [_, setLoading] = useContext(LoadingContext);
 
     useEffect(() => {
         if (podcast) {
+            setLoading(false);
+
             return;
         }
 
-        fetchPodcast(podcastId).then(setPodcast).catch(console.log);
-    }, [podcastId, podcast, setPodcast]);
+        setLoading(true);
+
+        fetchPodcast(podcastId).then(setPodcast).catch(console.log).finally(() => setLoading(false));
+    }, [podcastId, podcast, setPodcast, setLoading]);
 
     return podcast ? (
         <Main>
