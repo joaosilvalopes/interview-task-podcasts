@@ -8,21 +8,21 @@ const Container = styled.div`
 `;
 
 const EpisodeCard = styled(Card)`
-    padding: 2rem 1rem;
+    padding: 3.2rem 1.6rem;
 `;
 
 const EpisodeTitle = styled.h2`
-    font-size: 2rem;
+    font-size: 3.2rem;
     font-weight: bold;
 `;
 
 const EpisodeDescription = styled.p`
-    margin-top: 2rem;
+    margin-top: 3.2rem;
 `;
 
 const EpisodePlayer = styled.audio`
     width: 100%;
-    margin-top: 2rem;
+    margin-top: 3.2rem;
 `;
 
 const PodcastEpisode = () => {

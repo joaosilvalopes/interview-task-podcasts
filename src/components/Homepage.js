@@ -4,15 +4,20 @@ import styled from 'styled-components';
 import Link from './Link';
 import Card from './Card';
 
+const Main = styled.main`
+    padding: 3.2rem;
+    font-size: 1.6rem;
+`;
+
 const PodcastsUl = styled.ul`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 1rem;
+    grid-gap: 1.6rem;
 `;
 
 const PodcastLi = styled.li`
     position: relative;
-    padding-top: 1.5rem;
+    padding-top: 2.4rem;
 `;
 
 const PodcastImg = styled.img`
@@ -23,43 +28,34 @@ const PodcastImg = styled.img`
     border-radius: 50%;
 `;
 
-const TitleH3 = styled.h3`
+const PodcastTitle = styled.h3`
     text-align: center;
     text-transform: uppercase;
     font-weight: bold;
 `;
 
-const AuthorP = styled.p`
+const PodcastAuthor = styled.p`
     color: grey;
-    margin: 0.75rem 0;
+    margin: 1.2rem 0;
     font-weight: bold;
 `;
 
-const PodcastContentDiv = styled(Card)`
+const PodcastContent = styled(Card)`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 2.5rem;
-`;
-
-const PodcastLink = styled(Link)`
-    text-decoration: none;
-    color: inherit;
-
-    &:focus, &:hover, &:visited, &:link, &:active {
-        text-decoration: none;
-    }
+    padding-top: 4rem;
 `;
 
 const Podcast = ({ data }) => (
     <PodcastLi>
         <Link to={`podcast/${data.id}`}>
             <PodcastImg src={data.image} />
-            <PodcastContentDiv>
-                <TitleH3>{data.title}</TitleH3>
+            <PodcastContent>
+                <PodcastTitle>{data.title}</PodcastTitle>
                 <br />
-                <AuthorP>Author: {data.author}</AuthorP>
-            </PodcastContentDiv>
+                <PodcastAuthor>Author: {data.author}</PodcastAuthor>
+            </PodcastContent>
         </Link>
     </PodcastLi>
 );
@@ -116,10 +112,10 @@ const Homepage = () => {
     );
 
     return filteredPodcasts ? (
-        <main>
+        <Main>
              <input type="text" value={searchQuery} onChange={handleSearchInputChange} /> {filteredPodcasts.length}
             <PodcastsUl>{filteredPodcasts.map((podcast) => <Podcast data={podcast} key={podcast.id} />)}</PodcastsUl>
-        </main>
+        </Main>
     ) : null;
 }
 

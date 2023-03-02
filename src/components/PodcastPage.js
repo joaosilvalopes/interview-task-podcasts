@@ -6,12 +6,13 @@ import Card from './Card';
 
 const Main = styled.main`
     display: flex;
-    margin-top: 2rem;
+    padding: 3.2rem;
+    font-size: 1.6rem;
 `;
 
 const PodcastCardContainer = styled.div`
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
     width: 30%;
 `;
@@ -19,9 +20,9 @@ const PodcastCardContainer = styled.div`
 const PodcastCard = styled(Card)`
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    padding: 1.6rem;
     width: 80%;
-    max-width: 30rem;
+    max-width: 50rem;
 `;
 
 const PodcastImage = styled.img`
@@ -34,7 +35,7 @@ const PodcastTitle = styled.p`
 `;
 
 const Author = styled.span`
-    margin-top: 0.3rem;
+    margin-top: 0.5rem;
 
     & > span {
         font-style: italic;
@@ -46,13 +47,13 @@ const PodcastDescriptionLabel = styled.p`
 `;
 
 const PodcastDescription = styled.p`
-    margin-top: 0.75rem;
+    margin-top: 1.2rem;
 `;
 
 const Separator = styled.hr`
     width: 100%;
-    border: 0.05rem solid rgba(0, 0, 0, 0.2);
-    margin: 1rem 0;
+    border: 0.1rem solid rgba(0, 0, 0, 0.1);
+    margin: 1.6rem 0;
 `;
 
 const getCachedPodcast = (podcastId) => {

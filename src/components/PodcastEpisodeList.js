@@ -14,13 +14,13 @@ const Container = styled.div`
 
 const EpisodeCountCard = styled(Card)`
     font-weight: bold;
-    font-size: 1.5rem;
-    padding: 1.5rem 1rem;
+    font-size: 2.4rem;
+    padding: 2.4rem 1.6rem;
 `;
 
 const EpisodeTableCard = styled(Card)`
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
+    margin-top: 1.6rem;
+    padding: 1rem 1.6rem;
 `;
 
 const EpisodeTable = styled.table`
@@ -33,7 +33,7 @@ const EpisodeTableRow = styled.tr`
     }
 
     &:not(:last-child) {
-        border: 0.15rem solid rgba(0, 0, 0, 0.2);
+        border: 0.24rem solid rgba(0, 0, 0, 0.1);
         border-left: 0;
         border-right: 0;
     }
@@ -41,7 +41,7 @@ const EpisodeTableRow = styled.tr`
 
 const EpisodeTableHeader = styled.th`
     font-weight: bold;
-    padding: 0.5rem 0;
+    padding: 1rem 0;
     text-align: left;
 
     &:not(:first-child) {
@@ -50,7 +50,7 @@ const EpisodeTableHeader = styled.th`
 `;
 
 const EpisodeTableCell = styled.td`
-    padding: 0.5rem 0;
+    padding: 1rem 0;
 `;
 
 const EpisodeTitleLink = styled(Link)`
