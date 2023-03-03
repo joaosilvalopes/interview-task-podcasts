@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams, Outlet } from "react-router-dom";
+import { Outlet, useParams } from '@remix-run/react';
 import styled from "styled-components";
 
-import LoadingContext from "../context/LoadingContext";
+import LoadingContext from "../../context/LoadingContext";
 
-import Card from './Card';
+import Card from "../../components/Card";
 
 const Main = styled.main`
     display: flex;
@@ -95,11 +95,16 @@ const fetchPodcast = async (podcastId) => {
 
 const PodcastPage = () => {
     const { podcastId } = useParams();
-    const [podcast, setPodcast] = useState(getCachedPodcast(podcastId));
+    const [podcast, setPodcast] = useState();
     const [_, setLoading] = useContext(LoadingContext);
 
     useEffect(() => {
-        if (podcast) {
+        if (podcast) return;
+
+        const cachedPodcast = getCachedPodcast(podcastId);
+
+        if (cachedPodcast) {
+            setPodcast(cachedPodcast);
             setLoading(false);
 
             return;

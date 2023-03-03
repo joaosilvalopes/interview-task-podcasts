@@ -1,7 +1,7 @@
 import { useOutletContext, useParams } from "react-router-dom";
 import styled from 'styled-components';
 
-import Card from "./Card";
+import Card from "../../../../components/Card";
 
 const Container = styled.div`
     width: 70%;

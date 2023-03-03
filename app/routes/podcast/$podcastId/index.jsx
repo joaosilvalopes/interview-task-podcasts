@@ -1,8 +1,8 @@
 import { useOutletContext } from "react-router-dom";
 import styled from 'styled-components';
 
-import Link from './Link';
-import Card from './Card';
+import Link from '../../../components/Link';
+import Card from '../../../components/Card';
 
 const pad2 = (num) => num.toString().padStart(2, '0');
 

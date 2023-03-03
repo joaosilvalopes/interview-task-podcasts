@@ -1,8 +1,8 @@
 import { useState, useMemo, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 
-import Link from './Link';
-import Card from './Card';
+import Link from '../components/Link';
+import Card from '../components/Card';
 
 import LoadingContext from '../context/LoadingContext';
 
@@ -89,7 +89,7 @@ const Podcast = ({ data }) => (
     </PodcastLi>
 );
 
-const getCachedPodcast = () => {
+const getCachedPodcasts = () => {
     try {
         const cachedPodcasts = JSON.parse(localStorage.getItem('podcasts'));
 
@@ -120,12 +120,17 @@ const fetchPodcasts = async () => {
 }
 
 const Homepage = () => {
-    const [podcasts, setPodcasts] = useState(getCachedPodcast());
+    const [podcasts, setPodcasts] = useState();
     const [searchQuery, setSearchQuery] = useState("");
     const [_, setLoading] = useContext(LoadingContext);
 
     useEffect(() => {
-        if (podcasts) {
+        if (podcasts) return;
+
+        const cachedPodcasts = getCachedPodcasts();
+
+        if (cachedPodcasts) {
+            setPodcasts(cachedPodcasts);
             setLoading(false);
 
             return;
@@ -138,7 +143,7 @@ const Homepage = () => {
 
     const handleSearchInputChange = (e) => {
         setSearchQuery(e.target.value);
-    }
+    };
 
     const filteredPodcasts = useMemo(
         () => podcasts?.filter((podcast) => podcast.title.toLowerCase().includes(searchQuery.toLowerCase()) || podcast.author.toLowerCase().includes(searchQuery.toLowerCase())),
