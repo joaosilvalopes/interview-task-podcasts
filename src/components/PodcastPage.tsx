@@ -135,7 +135,7 @@ const fetchPodcast = async (podcastId: string) => {
 const PodcastPage = () => {
     const { podcastId } = useParams();
     const [podcast, setPodcast] = useState(getCachedPodcast(podcastId as string));
-    const [_, setLoading] = useContext(LoadingContext);
+    const [, setLoading] = useContext(LoadingContext);
 
     useEffect(() => {
         if (podcast) {
@@ -153,7 +153,7 @@ const PodcastPage = () => {
         <Main>
             <PodcastCardContainer>
                 <PodcastCard data-testid="podcast">
-                    <PodcastImage srcSet={podcast.image} />
+                    <PodcastImage data-testid="podcast-image" srcSet={podcast.image} />
                     <Separator />
                     <PodcastTitle data-testid="podcast-title">{podcast.title}</PodcastTitle>
                     <Author>by <span data-testid="podcast-author">{podcast.author}</span></Author>

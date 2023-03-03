@@ -112,19 +112,6 @@ type PodcastsResultType = {
     }
 }
 
-const Podcast = (props: PodcastType) => (
-    <PodcastLi data-testid="podcast">
-        <Link to={`podcast/${props.id}`} data-testid="podcast-link">
-            <PodcastImg data-testid="podcast-image" srcSet={props.image} />
-            <PodcastContent>
-                <PodcastTitle data-testid="podcast-title">{props.title}</PodcastTitle>
-                <br />
-                <PodcastAuthor data-testid="podcast-author">Author: {props.author}</PodcastAuthor>
-            </PodcastContent>
-        </Link>
-    </PodcastLi>
-);
-
 const getCachedPodcast = (): PodcastType[] | null => {
     try {
         const storedPodcastsJson = localStorage.getItem('podcasts');
@@ -159,7 +146,7 @@ const fetchPodcasts = async (): Promise<PodcastType[]> => {
 const Homepage = () => {
     const [podcasts, setPodcasts] = useState<PodcastType[]|null>(getCachedPodcast());
     const [searchQuery, setSearchQuery] = useState<string>("");
-    const [_, setLoading] = useContext(LoadingContext);
+    const [,setLoading] = useContext(LoadingContext);
 
     useEffect(() => {
         if (podcasts) {
@@ -188,7 +175,18 @@ const Homepage = () => {
                 <PodcastCount>{filteredPodcasts.length}</PodcastCount>
                 <SearchInput type="text" placeholder="Filter podcasts..." value={searchQuery} onChange={handleSearchInputChange} data-testid="search-input" />
             </SearchBar>
-            <PodcastsUl>{filteredPodcasts.map((podcast) => <Podcast {...podcast} key={podcast.id} />)}</PodcastsUl>
+            <PodcastsUl>{filteredPodcasts.map((podcast) => (
+                <PodcastLi key={podcast.id} data-testid="podcast">
+                    <Link to={`podcast/${podcast.id}`} data-testid="podcast-link">
+                        <PodcastImg data-testid="podcast-image" srcSet={podcast.image} />
+                        <PodcastContent>
+                            <PodcastTitle data-testid="podcast-title">{podcast.title}</PodcastTitle>
+                            <br />
+                            <PodcastAuthor data-testid="podcast-author">Author: {podcast.author}</PodcastAuthor>
+                        </PodcastContent>
+                    </Link>
+                </PodcastLi>
+            ))}</PodcastsUl>
         </Main>
     ) : null;
 }

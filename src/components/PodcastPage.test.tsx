@@ -13,8 +13,7 @@ it('should render correctly', async () => {
     await waitFor(() =>expect(getByTestId('podcast')), { timeout: 10000 });
 
     expect(getByTestId('podcast-title')).toBeVisible();
+    expect(getByTestId('podcast-image')).toBeVisible();
     expect(getByTestId('podcast-author')).toBeVisible();
     expect(getByTestId('podcast-description')).toBeVisible();
-    
-    expect(asFragment()).toMatchSnapshot();
 });

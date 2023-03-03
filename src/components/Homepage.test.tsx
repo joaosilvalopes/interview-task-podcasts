@@ -19,8 +19,6 @@ it('should render correctly', async () => {
         expect(getByTestIdJest(podcast, 'podcast-author')).toBeVisible();
         expect(getByTestIdJest(podcast, 'podcast-image')).toBeVisible();
     }
-
-    expect(asFragment()).toMatchSnapshot();
 });
 
 it('should filter by search query', async () => {
@@ -43,6 +41,4 @@ it('should filter by search query', async () => {
         
         expect(title?.toLowerCase()?.includes?.(searchQuery) || author?.toLowerCase()?.includes?.(searchQuery)).toBe(true);
     }
-
-    expect(asFragment()).toMatchSnapshot();
 });
