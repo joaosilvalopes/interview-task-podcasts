@@ -1,10 +1,12 @@
-import { useState, useMemo, useEffect, useContext } from 'react';
+import { useState, useMemo, useEffect, useContext, ChangeEvent } from 'react';
 import styled from 'styled-components';
 
 import Link from './Link';
 import Card from './Card';
 
 import LoadingContext from '../context/LoadingContext';
+
+import fetchWithCors from '../utils/fetchWithCors';
 
 const Main = styled.main`
     padding: 3.2rem;
@@ -76,22 +78,57 @@ const SearchBar = styled.div`
     margin-bottom: 3rem;
 `;
 
-const Podcast = ({ data }) => (
-    <PodcastLi>
-        <Link to={`podcast/${data.id}`}>
-            <PodcastImg srcSet={data.image} />
+type PodcastType = {
+    title: string,
+    author: string,
+    id: string,
+    image: string
+};
+
+type PodcastsStorageType = {
+    value: PodcastType[]
+    ttl: number,
+}
+
+type PodcastsResultType = {
+    feed: {
+        entry: [{
+            id: {
+                attributes: {
+                    ['im:id']: string
+                }
+            },
+            ['im:name']: {
+                label: string,
+            },
+            ['im:artist']: {
+                label: string,
+            },
+            ['im:id']: {
+                label: string,
+            },
+            ['im:image']: [{ label: string },{ label: string },{ label: string }]
+        }]
+    }
+}
+
+const Podcast = (props: PodcastType) => (
+    <PodcastLi data-testid="podcast">
+        <Link to={`podcast/${props.id}`} data-testid="podcast-link">
+            <PodcastImg data-testid="podcast-image" srcSet={props.image} />
             <PodcastContent>
-                <PodcastTitle>{data.title}</PodcastTitle>
+                <PodcastTitle data-testid="podcast-title">{props.title}</PodcastTitle>
                 <br />
-                <PodcastAuthor>Author: {data.author}</PodcastAuthor>
+                <PodcastAuthor data-testid="podcast-author">Author: {props.author}</PodcastAuthor>
             </PodcastContent>
         </Link>
     </PodcastLi>
 );
 
-const getCachedPodcast = () => {
+const getCachedPodcast = (): PodcastType[] | null => {
     try {
-        const cachedPodcasts = JSON.parse(localStorage.getItem('podcasts'));
+        const storedPodcastsJson = localStorage.getItem('podcasts');
+        const cachedPodcasts: PodcastsStorageType = storedPodcastsJson && JSON.parse(storedPodcastsJson);
 
         return (cachedPodcasts.ttl && Date.now() < cachedPodcasts.ttl && Array.isArray(cachedPodcasts.value)) ? cachedPodcasts.value : null;
     } catch {
@@ -99,8 +136,8 @@ const getCachedPodcast = () => {
     }
 }
 
-const fetchPodcasts = async () => {
-    const res = await fetch('https://cors-anywhere.herokuapp.com/https://itunes.apple.com/us/rss/toppodcasts/limit=100/json').then(res => res.json());
+const fetchPodcasts = async (): Promise<PodcastType[]> => {
+    const res: PodcastsResultType = await fetchWithCors('https://itunes.apple.com/us/rss/toppodcasts/limit=100/json').then(res => res.json());
     const tommorow = Date.now() + 86000000;
     const podcasts = res.feed.entry;
 
@@ -120,8 +157,8 @@ const fetchPodcasts = async () => {
 }
 
 const Homepage = () => {
-    const [podcasts, setPodcasts] = useState(getCachedPodcast());
-    const [searchQuery, setSearchQuery] = useState("");
+    const [podcasts, setPodcasts] = useState<PodcastType[]|null>(getCachedPodcast());
+    const [searchQuery, setSearchQuery] = useState<string>("");
     const [_, setLoading] = useContext(LoadingContext);
 
     useEffect(() => {
@@ -136,7 +173,7 @@ const Homepage = () => {
         fetchPodcasts().then(setPodcasts).catch(console.log).finally(() => setLoading(false));
     }, [podcasts, setPodcasts, setLoading]);
 
-    const handleSearchInputChange = (e) => {
+    const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
     }
 
@@ -149,9 +186,9 @@ const Homepage = () => {
         <Main>
             <SearchBar>
                 <PodcastCount>{filteredPodcasts.length}</PodcastCount>
-                <SearchInput type="text" placeholder="Filter podcasts..." value={searchQuery} onChange={handleSearchInputChange} />
+                <SearchInput type="text" placeholder="Filter podcasts..." value={searchQuery} onChange={handleSearchInputChange} data-testid="search-input" />
             </SearchBar>
-            <PodcastsUl>{filteredPodcasts.map((podcast) => <Podcast data={podcast} key={podcast.id} />)}</PodcastsUl>
+            <PodcastsUl>{filteredPodcasts.map((podcast) => <Podcast {...podcast} key={podcast.id} />)}</PodcastsUl>
         </Main>
     ) : null;
 }

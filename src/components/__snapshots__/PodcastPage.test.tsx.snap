@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly 1`] = `
+<DocumentFragment>
+  <main
+    class="sc-gswNZR cSdtLP"
+  >
+    <div
+      class="sc-dkrFOg bxwRPC"
+    >
+      <div
+        class="sc-bcXHqe sc-hLBbgP bFLobp hucncV"
+        data-testid="podcast"
+      >
+        <img
+          class="sc-eDvSVe bgaNpC"
+          srcset="https://is1-ssl.mzstatic.com/image/thumb/Podcasts126/v4/29/cc/b0/29ccb00c-5970-2efb-18e9-1ea340ee1f9d/mza_17732988801572498978.jpg/100x100bb.jpg 768w, https://is1-ssl.mzstatic.com/image/thumb/Podcasts126/v4/29/cc/b0/29ccb00c-5970-2efb-18e9-1ea340ee1f9d/mza_17732988801572498978.jpg/600x600bb.jpg 1200w"
+        />
+        <hr
+          class="sc-pyfCe bWpAUh"
+        />
+        <p
+          class="sc-jSUZER dkeOOJ"
+          data-testid="podcast-title"
+        >
+          The Coldest Case In Laramie
+        </p>
+        <span
+          class="sc-gKPRtg btLwBr"
+        >
+          by 
+          <span
+            data-testid="podcast-author"
+          >
+            Serial Productions & The New York Times
+          </span>
+        </span>
+        <hr
+          class="sc-pyfCe bWpAUh"
+        />
+        <p
+          class="sc-iBYQkv hzcOrO"
+        >
+          Description:
+        </p>
+        <p
+          class="sc-ftTHYK bqlHXM"
+          data-testid="podcast-description"
+        >
+          Kim Barker, a Pulitzer Prize-winning investigative reporter for The New York Times, revisits an unsolved murder that took place while she was in high school in Laramie, Wyoming, nearly 40 years ago. She confronts the conflicting stories people have told themselves about the crime because of an unexpected development: the arrest of a former Laramie police officer accused in the murder.
+        </p>
+      </div>
+    </div>
+  </main>
+</DocumentFragment>
+`;

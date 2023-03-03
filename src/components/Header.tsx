@@ -18,8 +18,8 @@ const PageTitle = styled.h1`
     font-size: 2.8rem;
 `;
 
-const FadingLoader = styled(Loader).withConfig({ shouldForwardProp: (prop) => prop !== 'loading' })`
-    opacity: ${props => props.loading ? 1 : 0};
+const FadingLoader = styled(Loader).withConfig({ shouldForwardProp: (prop: string | number) => prop !== 'loading' })`
+    opacity: ${(props: { loading: true }) => props.loading ? 1 : 0};
     transition: 0.5s opacity ease-out;
 `;
 
@@ -27,7 +27,7 @@ const _Header = () => {
     const [loading] = useContext(LoadingContext);
 
     return (
-        <Header><PageTitle>Podcaster</PageTitle><FadingLoader loading={loading} /></Header>
+        <Header><PageTitle>Podcaster</PageTitle><FadingLoader data-testid="loader" loading={loading} /></Header>
     );
 }
 

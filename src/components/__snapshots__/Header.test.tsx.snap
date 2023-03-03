@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render correctly when loading context passed as false 1`] = `
+<DocumentFragment>
+  <header
+    class="sc-hLBbgP bHnltk"
+  >
+    <h1
+      class="sc-eDvSVe ckjSgl"
+    >
+      Podcaster
+    </h1>
+    <div
+      class="sc-bcXHqe eglgry sc-jSUZER bQyIE"
+      data-testid="loader"
+    >
+      <div
+        class="sc-dkrFOg eZaBCl"
+      />
+      <div
+        class="sc-gswNZR eMufKk"
+      />
+    </div>
+  </header>
+</DocumentFragment>
+`;
+
+exports[`should render correctly when loading context passed as true 1`] = `
+<DocumentFragment>
+  <header
+    class="sc-hLBbgP bHnltk"
+  >
+    <h1
+      class="sc-eDvSVe ckjSgl"
+    >
+      Podcaster
+    </h1>
+    <div
+      class="sc-bcXHqe eglgry sc-jSUZER lnDLHd"
+      data-testid="loader"
+    >
+      <div
+        class="sc-dkrFOg eZaBCl"
+      />
+      <div
+        class="sc-gswNZR eMufKk"
+      />
+    </div>
+  </header>
+</DocumentFragment>
+`;

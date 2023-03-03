@@ -45,7 +45,11 @@ const Ring = styled.div`
     opacity: 0;
 `;
 
-const Loader = (props) => (
+type PropsType = {
+    className?: string
+};
+
+const Loader = (props: PropsType) => (
     <Container {...props}>
         <Ring></Ring>
         <Circle></Circle>

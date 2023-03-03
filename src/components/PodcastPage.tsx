@@ -3,6 +3,7 @@ import { useParams, Outlet } from "react-router-dom";
 import styled from "styled-components";
 
 import LoadingContext from "../context/LoadingContext";
+import fetchWithCors from "../utils/fetchWithCors";
 
 import Card from './Card';
 
@@ -59,9 +60,47 @@ const Separator = styled.hr`
     margin: 1.6rem 0;
 `;
 
-const getCachedPodcast = (podcastId) => {
+type PodcastType = {
+    title: string,
+    author: string,
+    image: string,
+    description: string,
+    episodesById: {
+        [key: string]: {
+            title: string,
+            description: string,
+            url: string,
+            releaseDate: string,
+            length: number,
+        }
+    },
+    episodeCount: number
+};
+
+type PodcastResType = { results: [
+    {
+        collectionName: string,
+        artistName: string,
+        artworkUrl100: string,
+        artworkUrl600: string,
+        description: string,
+        length: number,
+        feedUrl: string,
+    },
+    ...{
+        trackId: string,
+        episodeUrl: string,
+        description: string,
+        trackName: string,
+        trackTimeMillis: number,
+        releaseDate: string,
+    }[],
+] };
+
+const getCachedPodcast = (podcastId: string): PodcastType|null => {
     try {
-        const cachedPodcast = JSON.parse(localStorage.getItem('podcast' + podcastId));
+        const storedPodcastJson = localStorage.getItem('podcast' + podcastId);
+        const cachedPodcast = storedPodcastJson && JSON.parse(storedPodcastJson);
 
         return cachedPodcast.ttl && Date.now() < cachedPodcast.ttl ? cachedPodcast.value : null;
     } catch {
@@ -69,15 +108,15 @@ const getCachedPodcast = (podcastId) => {
     }
 }
 
-const fetchPodcast = async (podcastId) => {
-    const lookupRes = await fetch(`https://cors-anywhere.herokuapp.com/https://itunes.apple.com/lookup?id=${podcastId}&media=podcast&entity=podcastEpisode`).then(res => res.json());
+const fetchPodcast = async (podcastId: string) => {
+    const lookupRes: PodcastResType = await fetchWithCors(`https://itunes.apple.com/lookup?id=${podcastId}&media=podcast&entity=podcastEpisode`).then(res => res.json());
 
     const [details, ...episodes] = lookupRes.results;
 
-    const description = details.feedUrl ? await fetch(`https://cors-anywhere.herokuapp.com/${details.feedUrl}`)
+    const description = details.feedUrl ? await fetchWithCors(details.feedUrl)
         .then(response => response.text())
         .then(str => new window.DOMParser().parseFromString(str, "application/xml"))
-        .then(xml => xml.querySelector('description').textContent) : '';
+        .then(xml => xml.querySelector('description')?.textContent || '') : '';
 
     const podcast = {
         title: details.collectionName,
@@ -95,7 +134,7 @@ const fetchPodcast = async (podcastId) => {
 
 const PodcastPage = () => {
     const { podcastId } = useParams();
-    const [podcast, setPodcast] = useState(getCachedPodcast(podcastId));
+    const [podcast, setPodcast] = useState(getCachedPodcast(podcastId as string));
     const [_, setLoading] = useContext(LoadingContext);
 
     useEffect(() => {
@@ -107,20 +146,20 @@ const PodcastPage = () => {
 
         setLoading(true);
 
-        fetchPodcast(podcastId).then(setPodcast).catch(console.log).finally(() => setLoading(false));
+        fetchPodcast(podcastId as string).then(setPodcast).catch(console.log).finally(() => setLoading(false));
     }, [podcastId, podcast, setPodcast, setLoading]);
 
     return podcast ? (
         <Main>
             <PodcastCardContainer>
-                <PodcastCard>
+                <PodcastCard data-testid="podcast">
                     <PodcastImage srcSet={podcast.image} />
                     <Separator />
-                    <PodcastTitle>{podcast.title}</PodcastTitle>
-                    <Author>by <span>{podcast.author}</span></Author>
+                    <PodcastTitle data-testid="podcast-title">{podcast.title}</PodcastTitle>
+                    <Author>by <span data-testid="podcast-author">{podcast.author}</span></Author>
                     <Separator />
                     <PodcastDescriptionLabel>Description:</PodcastDescriptionLabel>
-                    <PodcastDescription dangerouslySetInnerHTML={{ __html: podcast.description }} />
+                    <PodcastDescription  data-testid="podcast-description" dangerouslySetInnerHTML={{ __html: podcast.description }} />
                 </PodcastCard>
             </PodcastCardContainer>
             <Outlet context={{ podcast }} />

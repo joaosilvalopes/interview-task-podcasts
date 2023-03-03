@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import {
   createBrowserRouter,
-  RouterProvider,
+  RouterProvider
 } from "react-router-dom";
 
 import LoadingContext from './context/LoadingContext';
@@ -36,7 +36,6 @@ const router = createBrowserRouter([
 
 const App = () => {
   const [loading, setLoading] = useState(true);
-
   return (
     <LoadingContext.Provider value={ [loading, setLoading] }>
       <Header />
@@ -45,7 +44,7 @@ const App = () => {
   )
 };
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(document.getElementById("root") as Element).render(
   <React.StrictMode>
       <App />
   </React.StrictMode>

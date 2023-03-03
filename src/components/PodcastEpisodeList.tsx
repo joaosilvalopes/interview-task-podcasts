@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import Link from './Link';
 import Card from './Card';
 
-const pad2 = (num) => num.toString().padStart(2, '0');
+const pad2 = (num: number) => num.toString().padStart(2, '0');
 
-const formatTime = (ms) => `${pad2(Math.floor(ms / 3600000))}:${pad2(Math.floor((ms % 3600000) / 60000))}:${pad2(Math.floor((ms % 60000) / 1000))}`;
+const formatTime = (ms: number) => `${pad2(Math.floor(ms / 3600000))}:${pad2(Math.floor((ms % 3600000) / 60000))}:${pad2(Math.floor((ms % 60000) / 1000))}`;
 
 const Container = styled.div`
     width: 70%;
@@ -61,8 +61,25 @@ const EpisodeTitleLink = styled(Link)`
     }
 `;
 
+type PodcastType = {
+    title: string,
+    author: string,
+    image: string,
+    description: string,
+    episodesById: {
+        [key: string]: {
+            title: string,
+            description: string,
+            url: string,
+            releaseDate: string,
+            length: number,
+        }
+    },
+    episodeCount: number
+};
+
 const PodcastEpisodeList = () => {
-    const { podcast } = useOutletContext();
+    const { podcast } = useOutletContext<{ podcast: PodcastType }>();
 
     return <Container>
         <EpisodeCountCard>Episodes: { podcast.episodeCount }</EpisodeCountCard>
@@ -77,10 +94,10 @@ const PodcastEpisodeList = () => {
                 </thead>
                 <tbody>
                     { Object.entries(podcast.episodesById).map(([episodeId, episode]) => (
-                        <EpisodeTableRow key={episodeId}>
-                            <EpisodeTableCell><EpisodeTitleLink to={ `episode/${episodeId}` }>{episode.title}</EpisodeTitleLink></EpisodeTableCell>
-                            <EpisodeTableCell>{new Date(episode.releaseDate).toLocaleDateString()}</EpisodeTableCell>
-                            <EpisodeTableCell>{formatTime(episode.length)}</EpisodeTableCell>
+                        <EpisodeTableRow data-testid={`podcast-episode-${episodeId}`} key={episodeId}>
+                            <EpisodeTableCell><EpisodeTitleLink data-testid="podcast-episode-link" to={ `episode/${episodeId}` }>{episode.title}</EpisodeTitleLink></EpisodeTableCell>
+                            <EpisodeTableCell data-testid="podcast-episode-release-date">{new Date(episode.releaseDate).toLocaleDateString()}</EpisodeTableCell>
+                            <EpisodeTableCell data-testid="podcast-episode-length">{formatTime(episode.length)}</EpisodeTableCell>
                         </EpisodeTableRow>
                     )) }
                 </tbody>
